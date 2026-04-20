@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Indulgence Repair Docket</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #cfd6df;
+      --panel: #ffffff;
+      --soft: #f6f7fb;
+      --accent: #6d4bc3;
+      --accent-soft: #f3efff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #eef2f7;
+    }
+
+    .app {
+      max-width: 1080px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .sheet {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    }
+
+    .sheet-header {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .header-card,
+    .section,
+    .check-card,
+    .total-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .header-card {
+      padding: 14px;
+      background: linear-gradient(180deg, #fff 0%, #fafbfe 100%);
+    }
+
+    .section {
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .header-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #172033;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-head .section-title {
+      margin-bottom: 0;
+    }
+
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .logo-wrap img {
+      width: 520px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .business-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .contact-line {
+      font-size: 18px;
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .toggle-pill input {
+      width: auto;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    .top-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .short-textarea { min-height: 68px; }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .check-card {
+      padding: 10px 12px;
+      background: var(--soft);
+    }
+
+    .check-card > label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .radio-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .radio-row label {
+      margin: 0;
+      font-size: 14px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .radio-row input[type="radio"] {
+      width: auto;
+      margin-right: 6px;
+    }
+
+    .repair-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+      align-items: start;
+    }
+
+    .fault-box textarea {
+      min-height: 182px;
+    }
+
+    .cost-summary {
+      background: var(--accent-soft);
+      border-color: #d8cdfa;
+    }
+
+    .total-box {
+      border: 2px solid var(--accent);
+      padding: 14px;
+      background: white;
+    }
+
+    .total-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .total-value {
+      font-size: 32px;
+      font-weight: 800;
+      margin-top: 6px;
+      color: var(--accent);
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .copy-label {
+      display: none;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border: 1px solid #d8cdfa;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hidden-section {
+      display: none !important;
+    }
+
+    @media (max-width: 860px) {
+      .sheet-header, .grid-2, .grid-3, .grid-4, .check-grid, .top-meta, .repair-layout {
+        grid-template-columns: 1fr;
+      }
+      .logo-wrap img {
+        max-width: 280px;
+        width: 100%;
+      }
+      .toolbar { align-items: flex-start; }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 9mm;
+      }
+
+      body {
+        background: white;
+        font-size: 11px;
+      }
+
+      .toolbar { display: none !important; }
+      .app { max-width: none; margin: 0; padding: 0; }
+      .sheet {
+        box-shadow: none;
+        border: 0;
+        padding: 0;
+        border-radius: 0;
+      }
+      .section, .header-card, .total-box, .check-card {
+        break-inside: avoid;
+        border-radius: 8px;
+      }
+      .section {
+        padding: 10px;
+        margin-bottom: 8px;
+      }
+      .section-title {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      input, textarea, select {
+        padding: 7px 8px;
+        font-size: 11px;
+        border-radius: 6px;
+      }
+      textarea { min-height: 54px; }
+      .short-textarea { min-height: 42px; }
+      .logo-wrap img {
+        width: 280px;
+        max-width: 62%;
+      }
+      .business-sub, .footer-note, label, .total-label, .toggle-pill {
+        font-size: 10px;
+      }
+      .contact-line {
+        font-size: 12px;
+        line-height: 1.25;
+      }
+      .contact-line {
+        font-size: 14px;
+      }
+      .total-value {
+        font-size: 24px;
+      }
+      .copy-label {
+        display: inline-flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div>
+          <div class="brand">Repair Docket</div>
+          <div class="subtitle">Editable online form with clean A4 print layout</div>
+        </div>
+      </div>
+      <div class="toolbar-left">
+        <button id="newFormBtn">New Form</button>
+        <button id="emailSummaryBtn">Email Copy</button>
+        <button id="savePdfBtn">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="sheet" id="repairSheet">
+      <div class="sheet-header">
+        <div class="header-card">
+          <div class="header-title">Business</div>
+          <div class="logo-wrap">
+            <img src="https://static.wixstatic.com/media/4abfde_4f0aac2f6f83499080c40384d8bf0dbb~mv2.png" alt="Audio Indulgence logo">
+            <div class="contact-line">PH: 0448 730 099</div>
+            <div class="contact-line">27 Green Street, Telarah NSW 2320</div>
+            <div class="contact-line">sales@audioindulgence.com.au</div>
+            <div class="business-sub">Repair Intake / Quote / Collection Docket</div>
+          </div>
+        </div>
+        <div class="header-card">
+          <div class="header-title">Job Details</div>
+          <div class="top-meta">
+            <div class="field">
+              <label for="jobDate">Date</label>
+              <input id="jobDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="jobNumber">Job No.</label>
+              <input id="jobNumber" type="text" />
+            </div>
+            <div class="field">
+              <label for="bookedBy">Booked In By</label>
+              <input id="bookedBy" type="text" placeholder="Staff member" />
+            </div>
+            <div class="field">
+              <label for="status">Status</label>
+              <select id="status">
+                <option>Booked In</option>
+                <option>Quoted</option>
+                <option>Approved</option>
+                <option>In Repair</option>
+                <option>Ready For Collection</option>
+                <option>Collected</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Customer Details</div>
+        <div class="grid-3">
+          <div class="field">
+            <label for="customerName">Customer Name</label>
+            <input id="customerName" type="text" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" />
+          </div>
+          <div class="field">
+            <label for="contactEmail">Email</label>
+            <input id="contactEmail" type="email" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="address">Address</label>
+            <input id="address" type="text" />
+          </div>
+          <div class="field">
+            <label for="orderRef">Order / Contact Ref</label>
+            <input id="orderRef" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Unit Details</div>
+        <div class="grid-4">
+          <div class="field">
+            <label for="make">Make</label>
+            <input id="make" type="text" />
+          </div>
+          <div class="field">
+            <label for="model">Model</label>
+            <input id="model" type="text" />
+          </div>
+          <div class="field">
+            <label for="serialNumber">Serial No.</label>
+            <input id="serialNumber" type="text" />
+          </div>
+          <div class="field">
+            <label for="purchasedFrom">Purchased From</label>
+            <input id="purchasedFrom" type="text" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="installedBy">Installed By</label>
+            <input id="installedBy" type="text" />
+          </div>
+          <div class="field">
+            <label for="accessories">Accessories Included</label>
+            <input id="accessories" type="text" placeholder="Harness, power lead, remote, SD card" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Repair Details</div>
+        <div class="check-grid">
+          <div class="check-card">
+            <label>Warranty</label>
+            <div class="radio-row">
+              <label><input type="radio" name="warranty" value="Yes">Yes</label>
+              <label><input type="radio" name="warranty" value="No" checked>No</label>
+            </div>
+          </div>
+          <div class="check-card">
+            <label>Quote Required</label>
+            <div class="radio-row">
+              <label><input type="radio" name="quoteRequired" value="Yes" checked>Yes</label>
+              <label><input type="radio" name="quoteRequired" value="No">No</label>
+            </div>
+          </div>
+          <div class="check-card">
+            <label>Repair Approved</label>
+            <div class="radio-row">
+              <label><input type="radio" name="repairApproved" value="Yes">Yes</label>
+              <label><input type="radio" name="repairApproved" value="No" checked>No</label>
+            </div>
+          </div>
+        </div>
+        <div class="repair-layout">
+          <div class="field fault-box">
+            <label for="faultDescription">Description of Fault</label>
+            <textarea id="faultDescription"></textarea>
+          </div>
+          <div>
+            <div class="field" style="margin-bottom:12px;">
+              <label for="conditionNotes">Condition / Notes</label>
+              <textarea id="conditionNotes" class="short-textarea"></textarea>
+            </div>
+            <div class="field">
+              <label for="pinCode">Password / PIN / Lock Code</label>
+              <input id="pinCode" type="text" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section cost-summary" id="quoteSection">
+        <div class="section-head">
+          <div class="section-title">Quotation / Costing</div>
+          <label class="toggle-pill"><input id="showQuoteSection" type="checkbox"> Show on print</label>
+        </div>
+        <div class="grid-4">
+          <div class="field">
+            <label for="quoteFee">Quote Fee</label>
+            <input id="quoteFee" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+          <div class="field">
+            <label for="repairCharge">Repair Charge</label>
+            <input id="repairCharge" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+          <div class="field">
+            <label for="partsCharge">Parts</label>
+            <input id="partsCharge" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+          <div class="field">
+            <label for="freightCharge">Freight</label>
+            <input id="freightCharge" type="number" min="0" step="0.01" placeholder="0.00" />
+          </div>
+        </div>
+        <div class="grid-2" style="align-items:end; margin-bottom:0;">
+          <div class="field">
+            <label for="quoteNotes">Quote Notes</label>
+            <textarea id="quoteNotes" class="short-textarea" placeholder="Add any repair notes or exclusions here"></textarea>
+          </div>
+          <div class="total-box">
+            <div class="total-label">Total</div>
+            <div class="total-value" id="totalValue">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="collectionSection">
+        <div class="section-head">
+          <div class="section-title">Collection / Sign Off</div>
+          <label class="toggle-pill"><input id="showCollectionSection" type="checkbox"> Show on print</label>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label for="receiverName">Received / Collected By</label>
+            <input id="receiverName" type="text" />
+          </div>
+          <div class="field">
+            <label for="signatureDate">Date</label>
+            <input id="signatureDate" type="date" />
+          </div>
+          <div class="field">
+            <label for="printedName">Print Name</label>
+            <input id="printedName" type="text" />
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:0;">
+          <div class="field">
+            <label for="customerSignature">Customer Signature</label>
+            <input id="customerSignature" type="text" placeholder="Sign manually after printing, or type name here" />
+          </div>
+          <div class="field">
+            <label for="bookedByPrint">Booked In By</label>
+            <input id="bookedByPrint" type="text" placeholder="Staff member" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Print / Save PDF creates two pages automatically: one copy to send with the item and one copy for your repair folder.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const currencyFields = ['quoteFee', 'repairCharge', 'partsCharge', 'freightCharge'];
+    const jobNumberStorageKey = 'repairDocketJobCounter';
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('en-AU', {
+        style: 'currency',
+        currency: 'AUD'
+      }).format(value || 0);
+    }
+
+    function updateTotal() {
+      const total = currencyFields.reduce((sum, id) => {
+        const value = parseFloat(document.getElementById(id).value);
+        return sum + (isNaN(value) ? 0 : value);
+      }, 0);
+      document.getElementById('totalValue').textContent = formatCurrency(total);
+    }
+
+    function setToday(id) {
+      const el = document.getElementById(id);
+      if (!el.value) {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        el.value = `${yyyy}-${mm}-${dd}`;
+      }
+    }
+
+    function formatDisplayDate(value) {
+      if (!value) return '';
+      const [yyyy, mm, dd] = value.split('-');
+      if (!yyyy || !mm || !dd) return value;
+      return `${dd}/${mm}/${yyyy}`;
+    }
+
+    function getNextJobSequence(forceNext = false) {
+      const today = new Date();
+      const y = today.getFullYear().toString().slice(-2);
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      const dateKey = `${y}${m}${d}`;
+
+      let stored = { dateKey, count: 0 };
+      try {
+        const raw = localStorage.getItem(jobNumberStorageKey);
+        if (raw) stored = JSON.parse(raw);
+      } catch (e) {}
+
+      if (!stored || stored.dateKey !== dateKey) {
+        stored = { dateKey, count: 0 };
+      }
+
+      if (forceNext) {
+        stored.count += 1;
+        localStorage.setItem(jobNumberStorageKey, JSON.stringify(stored));
+      }
+
+      return `RD-${dateKey}-${String(Math.max(stored.count, 1)).padStart(2, '0')}`;
+    }
+
+    function assignNewJobNumber(forceNext = false) {
+      const el = document.getElementById('jobNumber');
+      if (!el.value || forceNext) {
+        el.value = getNextJobSequence(forceNext);
+      }
+    }
+
+    function clearForm() {
+      const confirmed = confirm('Start a new blank repair docket?');
+      if (!confirmed) return;
+      document.querySelectorAll('input, textarea, select').forEach(el => {
+        if (el.type === 'radio' || el.type === 'checkbox') return;
+        if (el.tagName === 'SELECT') {
+          el.selectedIndex = 0;
+        } else {
+          el.value = '';
+        }
+      });
+      document.querySelectorAll('input[type="radio"]').forEach(r => {
+        r.checked = r.defaultChecked;
+      });
+      document.getElementById('showQuoteSection').checked = false;
+      document.getElementById('showCollectionSection').checked = false;
+      setToday('jobDate');
+      setToday('signatureDate');
+      assignNewJobNumber(true);
+      document.getElementById('bookedBy').value = 'Shane';
+      document.getElementById('bookedByPrint').value = 'Shane';
+      updateTotal();
+    }
+
+    function buildEmailBody() {
+      const radioValue = (name) => (document.querySelector(`input[name="${name}"]:checked`) || {}).value || '';
+      return [
+        `Repair Docket ${document.getElementById('jobNumber').value}`,
+        '',
+        `Date: ${formatDisplayDate(document.getElementById('jobDate').value)}`,
+        `Customer: ${document.getElementById('customerName').value}`,
+        `Phone: ${document.getElementById('phone').value}`,
+        `Email: ${document.getElementById('contactEmail').value}`,
+        `Address: ${document.getElementById('address').value}`,
+        `Order / Contact Ref: ${document.getElementById('orderRef').value}`,
+        '',
+        `Unit: ${document.getElementById('make').value} ${document.getElementById('model').value}`.trim(),
+        `Serial No: ${document.getElementById('serialNumber').value}`,
+        `Purchased From: ${document.getElementById('purchasedFrom').value}`,
+        `Installed By: ${document.getElementById('installedBy').value}`,
+        `Accessories Included: ${document.getElementById('accessories').value}`,
+        '',
+        `Warranty: ${radioValue('warranty')}`,
+        `Quote Required: ${radioValue('quoteRequired')}`,
+        `Repair Approved: ${radioValue('repairApproved')}`,
+        `Fault Description: ${document.getElementById('faultDescription').value}`,
+        `Condition / Notes: ${document.getElementById('conditionNotes').value}`,
+        `Password / PIN / Lock Code: ${document.getElementById('pinCode').value}`,
+        '',
+        document.getElementById('showQuoteSection').checked ? `Total: ${document.getElementById('totalValue').textContent}` : 'Quotation / Costing: not included on print',
+        '',
+        'Audio Indulgence',
+        'PH: 0448 730 099',
+        '27 Green Street, Telarah NSW 2320'
+      ].join('\n');
+    }
+
+    function emailCopy() {
+      const to = document.getElementById('contactEmail').value.trim();
+      const subject = encodeURIComponent(`Repair Docket ${document.getElementById('jobNumber').value}`);
+      const body = encodeURIComponent(buildEmailBody());
+      window.location.href = `mailto:${encodeURIComponent(to)}?subject=${subject}&body=${body}`;
+    }
+
+    function syncFormValuesToClone(clone) {
+      document.querySelectorAll('#repairSheet input, #repairSheet textarea, #repairSheet select').forEach((field) => {
+        if (!field.id) return;
+        const target = clone.querySelector('#' + field.id);
+        if (!target) return;
+
+        if (field.type === 'checkbox' || field.type === 'radio') {
+          target.checked = field.checked;
+        } else if (field.tagName === 'TEXTAREA') {
+          target.value = field.value;
+          target.textContent = field.value;
+        } else if (field.tagName === 'SELECT') {
+          target.value = field.value;
+          Array.from(target.options).forEach(opt => {
+            opt.selected = opt.value === field.value;
+          });
+        } else {
+          target.value = field.value;
+          target.setAttribute('value', field.value);
+        }
+      });
+
+      document.querySelectorAll('#repairSheet input[type="radio"]').forEach((field) => {
+        const selector = `input[type="radio"][name="${field.name}"][value="${field.value}"]`;
+        const target = clone.querySelector(selector);
+        if (target) target.checked = field.checked;
+      });
+
+      const liveTotal = document.getElementById('totalValue').textContent;
+      const totalClone = clone.querySelector('#totalValue');
+      if (totalClone) totalClone.textContent = liveTotal;
+    }
+
+    function buildPrintableCopy(copyLabel) {
+      const clone = document.getElementById('repairSheet').cloneNode(true);
+      clone.removeAttribute('id');
+      syncFormValuesToClone(clone);
+
+      const quoteToggle = clone.querySelector('#showQuoteSection');
+      const collectionToggle = clone.querySelector('#showCollectionSection');
+      const quoteSection = clone.querySelector('#quoteSection');
+      const collectionSection = clone.querySelector('#collectionSection');
+
+      if (quoteToggle) quoteToggle.closest('.toggle-pill')?.remove();
+      if (collectionToggle) collectionToggle.closest('.toggle-pill')?.remove();
+
+      if (!document.getElementById('showQuoteSection').checked && quoteSection) {
+        quoteSection.remove();
+      }
+      if (!document.getElementById('showCollectionSection').checked && collectionSection) {
+        collectionSection.remove();
+      }
+
+      const label = document.createElement('div');
+      label.className = 'copy-label';
+      label.textContent = copyLabel;
+      clone.insertBefore(label, clone.firstChild);
+
+      return `<div class="print-page">${clone.outerHTML}</div>`;
+    }
+
+    function printTwoCopies() {
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('Please allow pop-ups for this page so the print copies can open.');
+        return;
+      }
+
+      const styles = document.querySelector('style').textContent;
+      const pageOne = buildPrintableCopy('Copy sent with item');
+      const pageTwo = buildPrintableCopy('Repair folder copy');
+
+      printWindow.document.open();
+      printWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Repair Docket</title>
+  <style>
+    ${styles}
+    body { background: white; }
+    .toolbar, .footer-note { display: none !important; }
+    .app { max-width: none; margin: 0; padding: 0; }
+    .print-page { page-break-after: always; break-after: page; }
+    .print-page:last-child { page-break-after: auto; break-after: auto; }
+    .sheet { box-shadow: none; }
+    .toggle-pill { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    ${pageOne}
+    ${pageTwo}
+  </div>
+  <script>
+    window.onload = function () {
+      setTimeout(function () { window.print(); }, 250);
+    };
+  <\/script>
+</body>
+</html>`);
+      printWindow.document.close();
+    }
+
+    currencyFields.forEach(id => {
+      document.getElementById(id).addEventListener('input', updateTotal);
+    });
+
+    document.getElementById('savePdfBtn').addEventListener('click', printTwoCopies);
+    document.getElementById('newFormBtn').addEventListener('click', clearForm);
+    document.getElementById('emailSummaryBtn').addEventListener('click', emailCopy);
+
+    setToday('jobDate');
+    setToday('signatureDate');
+    assignNewJobNumber();
+    document.getElementById('bookedBy').value = 'Shane';
+    document.getElementById('bookedByPrint').value = 'Shane';
+    document.getElementById('showQuoteSection').checked = false;
+    document.getElementById('showCollectionSection').checked = false;
+    updateTotal();
+  </script>
+</body>
+</html>
